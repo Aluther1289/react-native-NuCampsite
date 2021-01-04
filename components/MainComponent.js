@@ -17,6 +17,20 @@ import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from "react-navigation";
 import { Icon } from "react-native-elements";
 import SafeAreaView from "react-native-safe-area-view";
+import { connect } from "react-redux";
+import {
+	fetchCampsites,
+	fetchComments,
+	fetchPromotions,
+	fetchPartners,
+} from "../redux/ActionCreators";
+
+const mapDispatchToProps = {
+	fetchCampsites,
+	fetchComments,
+	fetchPartners,
+	fetchPromotions,
+};
 
 const AboutNavigator = createStackNavigator(
 	{
@@ -212,6 +226,13 @@ const MainNavigator = createDrawerNavigator(
 const AppNavigator = createAppContainer(MainNavigator);
 
 class Main extends Component {
+	componentDidMount() {
+		this.props.fetchCampsites();
+		this.props.fetchComments();
+		this.props.fetchPartners();
+		this.props.fetchPromotions();
+	}
+
 	render() {
 		return (
 			<View
@@ -258,4 +279,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default Main;
+export default connect(null, mapDispatchToProps)(Main);
